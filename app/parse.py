@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import csv
 
 
-
 @dataclass
 class Quote:
     text: str
@@ -34,16 +33,21 @@ def main(output_csv_path: str) -> None:
             tags_str = info.meta.get("content")
 
             if tags_str:
-                tags = tags_str.split(',')
+                tags = tags_str.split(",")
             else:
                 tags = []
 
             class_object = Quote(text, name, tags)
 
-            formatdict.append({'text': class_object.text, 'author': class_object.author, 'tags': class_object.tags})
+            formatdict.append(
+                {
+                    "text": class_object.text,
+                    "author": class_object.author,
+                    "tags": class_object.tags}
+            )
 
         number += 1
-    with open(output_csv_path, 'w') as file:
+    with open(output_csv_path, "w") as file:
         writer = csv.DictWriter(file, fieldnames=fields)
 
         writer.writeheader()
